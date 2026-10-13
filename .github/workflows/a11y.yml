@@ -1,27 +1,27 @@
-name: Accessibility:
-  on:
-    pull_request:
-    workflow_dispatch:
+name: Accessibility
+on:
+  pull_request:
+  workflow_dispatch:
 
-  permissions:
+permissions:
     contents: read
     pull-requests: write
 
-  jobs:
-    a11y:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v7
-        - uses: actions/setup-node@v7
-          with:
-            node-version: 24        # the action itself runs on Node
-        - uses: oven-sh/setup-bun@v2
-        - run: bun install --frozen-lockfile
-        - uses: ngbracket/a11y-devtools-action@v1
-          with:
-            serve: npx ng serve
-            routes: |
-              /
-              /login
-              /register
-            fail-on: none
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24        # the action itself runs on Node
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - uses: ngbracket/a11y-devtools-action@v1
+        with:
+          serve: npx ng serve
+          routes: |
+            /
+            /login
+            /register
+          fail-on: none
