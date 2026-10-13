@@ -1,25 +1,27 @@
 name: Accessibility
-on:
-  pull_request:
-  workflow_dispatch: # lets you run it by hand from the Actions tab
+  on:
+    pull_request:
+    workflow_dispatch:
 
-permissions:
-  contents: read
-  pull-requests: write
+  permissions:
+    contents: read
+    pull-requests: write
 
-jobs:
-  a11y:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - uses: ngbracket/a11y-devtools-action@v1
-        with:
-          serve: npx ng serve
-          routes: |
-            /
-          fail-on: none # report only while you explore
+  jobs:
+    a11y:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v7
+        - uses: actions/setup-node@v7
+          with:
+            node-version: 24        # the action itself runs on Node
+        - uses: oven-sh/setup-bun@v2
+        - run: bun install --frozen-lockfile
+        - uses: ngbracket/a11y-devtools-action@v1
+          with:
+            serve: npx ng serve
+            routes: |
+              /
+              /login
+              /register
+            fail-on: none
